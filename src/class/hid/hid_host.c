@@ -509,6 +509,8 @@ uint16_t hidh_open(uint8_t rhport, uint8_t daddr, const tusb_desc_interface_t *d
   const uint16_t drv_len = (uint16_t)(sizeof(tusb_desc_interface_t) + sizeof(tusb_hid_descriptor_hid_t) +
                                       desc_itf->bNumEndpoints * sizeof(tusb_desc_endpoint_t));
   TU_ASSERT(drv_len <= max_len, 0);
+  // pin bLength of interface/hid so tu_desc_next() below stays inside the window checked above
+  TU_VERIFY(TUH_VALIDATE_BASIC(sizeof(tusb_desc_interface_t) == desc_itf->bLength), 0);
   const uint8_t *p_desc = (const uint8_t *)desc_itf;
 
   // HID descriptor: mostly right after interface descriptor, in some rare case it might be after endpoint descriptors
@@ -517,6 +519,7 @@ uint16_t hidh_open(uint8_t rhport, uint8_t daddr, const tusb_desc_interface_t *d
   if (tu_desc_type(p_desc) == HID_DESC_TYPE_HID) {
     // HID after interface
     desc_hid = (const tusb_hid_descriptor_hid_t *)p_desc;
+    TU_ASSERT(TUH_VALIDATE_BASIC(sizeof(tusb_hid_descriptor_hid_t) == desc_hid->bLength), 0);
     p_desc   = tu_desc_next(p_desc);
   } else {
     // HID after endpoint
@@ -533,7 +536,8 @@ uint16_t hidh_open(uint8_t rhport, uint8_t daddr, const tusb_desc_interface_t *d
   // Endpoint Descriptors
   for (uint8_t i = 0; i < desc_itf->bNumEndpoints; i++) {
     const tusb_desc_endpoint_t *desc_ep = (const tusb_desc_endpoint_t *)p_desc;
-    TU_ASSERT(TUSB_DESC_ENDPOINT == desc_ep->bDescriptorType, 0);
+    TU_ASSERT(TUSB_DESC_ENDPOINT == desc_ep->bDescriptorType &&
+                TUH_VALIDATE_BASIC(sizeof(tusb_desc_endpoint_t) == desc_ep->bLength), 0);
     TU_ASSERT(tuh_edpt_open(daddr, desc_ep), 0);
 
     if (tu_edpt_dir(desc_ep->bEndpointAddress) == TUSB_DIR_IN) {
