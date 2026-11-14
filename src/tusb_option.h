@@ -485,6 +485,10 @@
   #error "CFG_TUSB_RHPORT0_MODE/CFG_TUSB_RHPORT1_MODE are removed: use CFG_TUD_ENABLED/CFG_TUD_MAX_SPEED, CFG_TUH_ENABLED/CFG_TUH_MAX_SPEED and tusb_init(rhport, &init)"
 #endif
 
+#ifdef TUP_RHPORT_HIGHSPEED
+  #error "TUP_RHPORT_HIGHSPEED is renamed to CFG_TUSB_HIGH_SPEED_DEFAULT"
+#endif
+
 // HighSpeed support compiled in while CFG_TUD_MAX_SPEED/CFG_TUH_MAX_SPEED is left at default: the port sets the
 // default, tusb_config.h may override it
 #ifndef CFG_TUSB_HIGH_SPEED
