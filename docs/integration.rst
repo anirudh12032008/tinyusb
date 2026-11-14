@@ -16,7 +16,7 @@ Integration Steps
 3. **Configure TinyUSB**: Create ``tusb_config.h`` with macros such as ``CFG_TUSB_MCU``, ``CFG_TUSB_OS``, and class enable flags. Start from any example's ``tusb_config.h`` and tweak.
 4. **Configure include paths**: Add ``your_project/tinyusb/src`` (and the folder holding ``tusb_config.h``) to your include paths.
 5. **Implement USB descriptors**: For device stack, implement the ``tud_descriptor_*_cb()`` callbacks (device) or host descriptor helpers that match your product.
-6. **Initialize TinyUSB**: Call ``tusb_init()`` once the clocks/peripherals are ready. Pass ``tusb_rhport_init_t`` if you need per-port settings.
+6. **Initialize TinyUSB**: Call ``tusb_init(rhport, &rh_init)`` once the clocks/peripherals are ready, with a ``tusb_rhport_init_t`` giving the port role and speed.
 7. **Handle interrupts**: From the USB ISR call ``tusb_int_handler(rhport, true)`` so the stack can process events.
 8. **Run USB tasks**: Call ``tud_task()`` (device) or ``tuh_task()`` (host) regularly from the main loop, RTOS task.
 9. **Implement class callbacks**: Provide the callbacks for the classes you enabled (e.g., ``tud_cdc_rx_cb()``, ``tuh_msc_mount_cb()``).
@@ -77,7 +77,7 @@ To integrate TinyUSB device stack with STM32CubeIDE
 
 1. In STM32CubeMX, enable USB_OTG_FS/HS under Connectivity, set to "Device_Only" mode
 2. Enable the USB global interrupt in NVIC Settings
-3. Add ``tusb.h`` include and call ``tusb_init()`` in main.c
+3. Add ``tusb.h`` include and call ``tusb_init(rhport, &rh_init)`` in main.c
 4. Call ``tud_task()`` in your main loop
 5. In the generated ``stm32xxx_it.c``, modify the USB IRQ handler to call ``tud_int_handler(0)``
 

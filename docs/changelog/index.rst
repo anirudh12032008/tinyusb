@@ -7,6 +7,7 @@ Release notes for each TinyUSB version, newest first.
 .. toctree::
    :maxdepth: 1
 
+   unreleased
    0.21.0
    0.20.0
    0.19.0

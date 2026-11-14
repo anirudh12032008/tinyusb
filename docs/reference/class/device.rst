@@ -49,14 +49,14 @@ pages.  Defaults come from ``src/tusb_option.h``.
      - Default
      - What it controls
    * - ``CFG_TUD_ENABLED``
-     - Root-port mode
-     - Enables the device stack.  Set it explicitly when the selected root-port
-       mode does not already select device operation.
+     - ``0``
+     - Enables the device stack.
    * - ``CFG_TUD_MAX_SPEED``
-     - Root-port mode
+     - ``0`` (port default)
      - Highest speed for which the device stack and descriptors are built.
-       High-speed devices also need valid qualifier and other-speed
-       descriptors.
+       Left at ``0``, high speed follows ``CFG_TUSB_HIGH_SPEED``, which
+       defaults to the port's ``CFG_TUSB_HIGH_SPEED_DEFAULT``.  High-speed
+       devices also need valid qualifier and other-speed descriptors.
    * - ``CFG_TUD_ENDPOINT0_SIZE``
      - ``64`` bytes
      - Control endpoint maximum packet size.  It must match ``bMaxPacketSize0``

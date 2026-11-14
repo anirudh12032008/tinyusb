@@ -44,13 +44,15 @@ Common configuration options
      - Default
      - What it controls
    * - ``CFG_TUH_ENABLED``
-     - Root-port mode
+     - ``0``
      - Enables the host stack.  The board must also supply VBUS and a
        host-capable controller/PHY.
    * - ``CFG_TUH_MAX_SPEED``
-     - Root-port mode
-     - Highest bus speed supported by the host build.  It does not make a
-       full-speed-only controller operate at high speed.
+     - ``0`` (port default)
+     - Highest bus speed supported by the host build.  Left at ``0``, high
+       speed follows ``CFG_TUSB_HIGH_SPEED`` (port default
+       ``CFG_TUSB_HIGH_SPEED_DEFAULT``).  It does not make a full-speed-only
+       controller operate at high speed.
    * - ``CFG_TUH_DEVICE_MAX``
      - ``1``
      - Number of non-hub USB devices tracked simultaneously.  Hubs use
