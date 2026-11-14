@@ -479,61 +479,52 @@
 // RootHub Mode detection
 //--------------------------------------------------------------------
 
-//------------- Root hub as Device -------------//
+//------------- Root hub speed -------------//
 
-#if defined(CFG_TUSB_RHPORT0_MODE) && ((CFG_TUSB_RHPORT0_MODE) & OPT_MODE_DEVICE)
-  #define TUD_RHPORT_MODE     (CFG_TUSB_RHPORT0_MODE)
-  #define TUD_OPT_RHPORT      0
-#elif defined(CFG_TUSB_RHPORT1_MODE) && ((CFG_TUSB_RHPORT1_MODE) & OPT_MODE_DEVICE)
-  #define TUD_RHPORT_MODE     (CFG_TUSB_RHPORT1_MODE)
-  #define TUD_OPT_RHPORT      1
-#else
-  #define TUD_RHPORT_MODE     OPT_MODE_NONE
+#if defined(CFG_TUSB_RHPORT0_MODE) || defined(CFG_TUSB_RHPORT1_MODE)
+  #error "CFG_TUSB_RHPORT0_MODE/CFG_TUSB_RHPORT1_MODE are removed: use CFG_TUD_ENABLED/CFG_TUD_MAX_SPEED, CFG_TUH_ENABLED/CFG_TUH_MAX_SPEED and tusb_init(rhport, &init)"
 #endif
 
+// HighSpeed support compiled in while CFG_TUD_MAX_SPEED/CFG_TUH_MAX_SPEED is left at default: the port sets the
+// default, tusb_config.h may override it
+#ifndef CFG_TUSB_HIGH_SPEED
+  #ifndef CFG_TUSB_HIGH_SPEED_DEFAULT
+    #define CFG_TUSB_HIGH_SPEED_DEFAULT 0
+  #endif
+  #define CFG_TUSB_HIGH_SPEED CFG_TUSB_HIGH_SPEED_DEFAULT
+#endif
+
+//------------- Root hub as Device -------------//
+
 #ifndef CFG_TUD_ENABLED
-  // fallback to use CFG_TUSB_RHPORTx_MODE
-  #define CFG_TUD_ENABLED     (TUD_RHPORT_MODE & OPT_MODE_DEVICE)
+  #define CFG_TUD_ENABLED     0
 #endif
 
 #ifndef CFG_TUD_MAX_SPEED
-  // fallback to use CFG_TUSB_RHPORTx_MODE
-  #define CFG_TUD_MAX_SPEED   (TUD_RHPORT_MODE & OPT_MODE_SPEED_MASK)
+  #define CFG_TUD_MAX_SPEED   0
 #endif
 
 // For backward compatible
 #define TUSB_OPT_DEVICE_ENABLED CFG_TUD_ENABLED
 
 // highspeed support indicator
-#define TUD_OPT_HIGH_SPEED    (CFG_TUD_MAX_SPEED ? (CFG_TUD_MAX_SPEED & OPT_MODE_HIGH_SPEED) : TUP_RHPORT_HIGHSPEED)
+#define TUD_OPT_HIGH_SPEED    (CFG_TUD_MAX_SPEED ? (CFG_TUD_MAX_SPEED & OPT_MODE_HIGH_SPEED) : CFG_TUSB_HIGH_SPEED)
 
 //------------- Root hub as Host -------------//
 
-#if defined(CFG_TUSB_RHPORT0_MODE) && ((CFG_TUSB_RHPORT0_MODE) & OPT_MODE_HOST)
-  #define TUH_RHPORT_MODE  (CFG_TUSB_RHPORT0_MODE)
-  #define TUH_OPT_RHPORT   0
-#elif defined(CFG_TUSB_RHPORT1_MODE) && ((CFG_TUSB_RHPORT1_MODE) & OPT_MODE_HOST)
-  #define TUH_RHPORT_MODE  (CFG_TUSB_RHPORT1_MODE)
-  #define TUH_OPT_RHPORT   1
-#else
-  #define TUH_RHPORT_MODE   OPT_MODE_NONE
-#endif
-
 #ifndef CFG_TUH_ENABLED
-  // fallback to use CFG_TUSB_RHPORTx_MODE
-  #define CFG_TUH_ENABLED     (TUH_RHPORT_MODE & OPT_MODE_HOST)
+  #define CFG_TUH_ENABLED     0
 #endif
 
 #ifndef CFG_TUH_MAX_SPEED
-  // fallback to use CFG_TUSB_RHPORTx_MODE
-  #define CFG_TUH_MAX_SPEED   (TUH_RHPORT_MODE & OPT_MODE_SPEED_MASK)
+  #define CFG_TUH_MAX_SPEED   0
 #endif
 
 // For backward compatible
 #define TUSB_OPT_HOST_ENABLED   CFG_TUH_ENABLED
 
 // highspeed support indicator
-#define TUH_OPT_HIGH_SPEED    (CFG_TUH_MAX_SPEED ? (CFG_TUH_MAX_SPEED & OPT_MODE_HIGH_SPEED) : TUP_RHPORT_HIGHSPEED)
+#define TUH_OPT_HIGH_SPEED    (CFG_TUH_MAX_SPEED ? (CFG_TUH_MAX_SPEED & OPT_MODE_HIGH_SPEED) : CFG_TUSB_HIGH_SPEED)
 
 
 //--------------------------------------------------------------------+

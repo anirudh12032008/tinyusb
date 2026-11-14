@@ -43,8 +43,12 @@
   #define CFG_TUSB_MCU  OPT_MCU_NRF5X
 #endif
 
-#ifndef CFG_TUSB_RHPORT0_MODE
-#define CFG_TUSB_RHPORT0_MODE    (OPT_MODE_DEVICE | OPT_MODE_HIGH_SPEED)
+#ifndef CFG_TUD_ENABLED
+#define CFG_TUD_ENABLED          1
+#endif
+
+#ifndef CFG_TUD_MAX_SPEED
+#define CFG_TUD_MAX_SPEED        OPT_MODE_HIGH_SPEED
 #endif
 
 #define CFG_TUSB_OS              OPT_OS_NONE

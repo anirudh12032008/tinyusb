@@ -82,7 +82,7 @@
   #define TUP_USBIP_EHCI
 
   #define TUP_DCD_ENDPOINT_MAX 6
-  #define TUP_RHPORT_HIGHSPEED 1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT 1
 
 #elif TU_CHECK_MCU(OPT_MCU_MCXN9)
   // USB0 is chipidea FS
@@ -94,7 +94,7 @@
   #define TUP_USBIP_EHCI
 
   #define TUP_DCD_ENDPOINT_MAX 8
-  #define TUP_RHPORT_HIGHSPEED 1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT 1
 
 #elif TU_CHECK_MCU(OPT_MCU_MCXA15)
   // USB0 is chipidea FS
@@ -109,7 +109,7 @@
   #define TUP_USBIP_EHCI
 
   #define TUP_DCD_ENDPOINT_MAX 8
-  #define TUP_RHPORT_HIGHSPEED 1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT 1
 
 #elif TU_CHECK_MCU(OPT_MCU_MIMXRT1XXX)
   #include "fsl_device_registers.h"
@@ -118,7 +118,7 @@
   #define TUP_USBIP_EHCI
 
   #define TUP_DCD_ENDPOINT_MAX 8
-  #define TUP_RHPORT_HIGHSPEED 1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT 1
 
   #if __CORTEX_M == 7
     #define CFG_TUD_MEM_DCACHE_ENABLE_DEFAULT     1
@@ -154,7 +154,7 @@
   #define TUP_USBIP_DWC2
   #define TUP_USBIP_DWC2_NRF
   #define TUP_DCD_ENDPOINT_MAX            16
-  #define TUP_RHPORT_HIGHSPEED            1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT     1
   #define CFG_TUH_DWC2_DMA_ENABLE_DEFAULT 0
 
 //--------------------------------------------------------------------+
@@ -169,7 +169,7 @@
 
 #elif TU_CHECK_MCU(OPT_MCU_SAMX7X)
   #define TUP_DCD_ENDPOINT_MAX 10
-  #define TUP_RHPORT_HIGHSPEED 1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT 1
   #define CFG_TUD_ENDPOINT_ONE_DIRECTION_ONLY 1
 
   // Enable dcache if DMA is enabled
@@ -263,7 +263,7 @@
 
   // MCU with on-chip HS Phy
   #if defined(STM32F723xx) || defined(STM32F730xx) || defined(STM32F733xx)
-    #define TUP_RHPORT_HIGHSPEED 1 // Port0: FS, Port1: HS
+    #define CFG_TUSB_HIGH_SPEED_DEFAULT 1 // Port0: FS, Port1: HS
   #endif
 
   // Enable dcache if DMA is enabled
@@ -314,7 +314,7 @@
   #define TUP_DCD_ENDPOINT_MAX                  9
 
   // MCU with on-chip HS Phy
-  #define TUP_RHPORT_HIGHSPEED                  1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT           1
 
   // Enable dcache if DMA is enabled
   #define CFG_TUD_MEM_DCACHE_ENABLE_DEFAULT     CFG_TUD_DWC2_DMA_ENABLE
@@ -382,7 +382,7 @@
     #if defined(STM32U595xx) || defined(STM32U599xx) || defined(STM32U5A5xx) || defined(STM32U5A9xx) || \
       defined(STM32U5F7xx) || defined(STM32U5F9xx) || defined(STM32U5G7xx) || defined(STM32U5G9xx)
       #define TUP_DCD_ENDPOINT_MAX 9
-      #define TUP_RHPORT_HIGHSPEED 1
+      #define CFG_TUSB_HIGH_SPEED_DEFAULT 1
     #else
       #define TUP_DCD_ENDPOINT_MAX 6
     #endif
@@ -401,14 +401,14 @@
   #define TUP_USBIP_DWC2
   #define TUP_USBIP_DWC2_STM32
   #define TUP_DCD_ENDPOINT_MAX 9
-  #define TUP_RHPORT_HIGHSPEED 1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT 1
 
 //--------------------------------------------------------------------+
 // Sony
 //--------------------------------------------------------------------+
 #elif TU_CHECK_MCU(OPT_MCU_CXD56)
   #define TUP_DCD_ENDPOINT_MAX 7
-  #define TUP_RHPORT_HIGHSPEED 1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT 1
   #define CFG_TUD_ENDPOINT_ONE_DIRECTION_ONLY 1
 
 //--------------------------------------------------------------------+
@@ -439,7 +439,7 @@
 
 #elif TU_CHECK_MCU(OPT_MCU_NUC505)
   #define TUP_DCD_ENDPOINT_MAX 12
-  #define TUP_RHPORT_HIGHSPEED 1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT 1
 
 //--------------------------------------------------------------------+
 // Espressif
@@ -460,7 +460,7 @@
 #elif TU_CHECK_MCU(OPT_MCU_ESP32P4)
   #define TUP_USBIP_DWC2
   #define TUP_USBIP_DWC2_ESP32
-  #define TUP_RHPORT_HIGHSPEED                  1  // port0 FS, port1 HS
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT           1  // port0 FS, port1 HS
   #define TUP_DCD_ENDPOINT_MAX                  16 // FS 7 ep, HS 16 ep
 
   // clang-format off
@@ -477,7 +477,7 @@
 #elif TU_CHECK_MCU(OPT_MCU_ESP32S31)
   #define TUP_USBIP_DWC2
   #define TUP_USBIP_DWC2_ESP32
-  #define TUP_RHPORT_HIGHSPEED                  1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT           1
   #define TUP_DCD_ENDPOINT_MAX                  16
 
   // clang-format off
@@ -546,7 +546,7 @@
 #elif TU_CHECK_MCU(OPT_MCU_BCM2711, OPT_MCU_BCM2835, OPT_MCU_BCM2837)
   #define TUP_USBIP_DWC2
   #define TUP_DCD_ENDPOINT_MAX 8
-  #define TUP_RHPORT_HIGHSPEED 1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT 1
 
 //--------------------------------------------------------------------+
 // Infineon
@@ -559,19 +559,19 @@
   #define TUP_USBIP_DWC2
   #define TUP_USBIP_DWC2_IFX
   #define TUP_DCD_ENDPOINT_MAX 9
-  #define TUP_RHPORT_HIGHSPEED 1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT 1
 
 //--------------------------------------------------------------------+
 // BridgeTek
 //--------------------------------------------------------------------+
 #elif TU_CHECK_MCU(OPT_MCU_FT90X)
   #define TUP_DCD_ENDPOINT_MAX 8
-  #define TUP_RHPORT_HIGHSPEED 1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT 1
   #define CFG_TUD_ENDPOINT_ONE_DIRECTION_ONLY 1
 
 #elif TU_CHECK_MCU(OPT_MCU_FT93X)
   #define TUP_DCD_ENDPOINT_MAX 16
-  #define TUP_RHPORT_HIGHSPEED 1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT 1
   #define CFG_TUD_ENDPOINT_ONE_DIRECTION_ONLY 1
 
 //--------------------------------------------------------------------+
@@ -597,7 +597,7 @@
     #define CFG_TUD_WCH_USBIP_USBHS (CFG_TUD_WCH_USBIP_USBFS ? 0 : 1)
   #endif
 
-  #define TUP_RHPORT_HIGHSPEED CFG_TUD_WCH_USBIP_USBHS
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT CFG_TUD_WCH_USBIP_USBHS
   #define TUP_DCD_ENDPOINT_MAX (CFG_TUD_WCH_USBIP_USBHS ? 16 : 8)
 
   #if CFG_TUD_WCH_USBIP_USBHS
@@ -667,7 +667,7 @@
     #define CFG_TUD_WCH_USBIP_USBHS (CFG_TUD_WCH_USBIP_USBFS ? 0 : 1)
   #endif
 
-  #define TUP_RHPORT_HIGHSPEED CFG_TUD_WCH_USBIP_USBHS
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT CFG_TUD_WCH_USBIP_USBHS
   #define TUP_DCD_ENDPOINT_MAX (CFG_TUD_WCH_USBIP_USBHS ? 16 : 8)
 
   #if CFG_TUD_WCH_USBIP_USBHS
@@ -691,7 +691,7 @@
 #elif TU_CHECK_MCU(OPT_MCU_CH32V4X7)
   // Two WCH HS2 controllers with built-in HS PHY: rhport 0 = USBHS1, rhport 1 = USBHS2 (instances, not IP versions)
   #define TUP_USBIP_WCH_HS2
-  #define TUP_RHPORT_HIGHSPEED 1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT 1
   #define TUP_DCD_ENDPOINT_MAX 8
   #define TUP_DCD_EDPT_CLOSE_API
 
@@ -702,7 +702,7 @@
   #define TUP_USBIP_MUSB
   #define TUP_USBIP_MUSB_ADI
   #define TUP_DCD_ENDPOINT_MAX 12
-  #define TUP_RHPORT_HIGHSPEED 1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT 1
   #define CFG_TUD_ENDPOINT_ONE_DIRECTION_ONLY 1
 
 //--------------------------------------------------------------------+
@@ -729,7 +729,7 @@
   #if defined(AT32F405CBT7) || defined(AT32F405CBU7) || defined(AT32F405CCT7) || defined(AT32F405CCU7) ||     \
     defined(AT32F405KBU7_4) || defined(AT32F405KCU7_4) || defined(AT32F405RBT7_7) || defined(AT32F405RBT7) || \
     defined(AT32F405RCT7_7) || defined(AT32F405RCT7)
-    #define TUP_RHPORT_HIGHSPEED 1 // Port0: FS, Port1: HS
+    #define CFG_TUSB_HIGH_SPEED_DEFAULT 1 // Port0: FS, Port1: HS
   #endif
 
 //--------------------------------------------------------------------+
@@ -740,7 +740,7 @@
   #define TUP_USBIP_EHCI
 
   #define TUP_DCD_ENDPOINT_MAX    16
-  #define TUP_RHPORT_HIGHSPEED    1
+  #define CFG_TUSB_HIGH_SPEED_DEFAULT 1
 
   #define TU_ATTR_FAST_FUNC __attribute__((section(".fast")))
 
@@ -799,11 +799,6 @@
 #if !defined(TUP_DCD_ENDPOINT_MAX) && defined(CFG_TUD_ENABLED) && CFG_TUD_ENABLED
   #warning "TUP_DCD_ENDPOINT_MAX is not defined for this MCU, default to 8"
   #define TUP_DCD_ENDPOINT_MAX 8
-#endif
-
-// Default to fullspeed if not defined
-#ifndef TUP_RHPORT_HIGHSPEED
-  #define TUP_RHPORT_HIGHSPEED 0
 #endif
 
 // fast function, normally mean placing function in SRAM

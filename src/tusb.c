@@ -63,33 +63,6 @@ TU_ATTR_WEAK void* tusb_app_phys_to_virt(void *phys_addr) {
 // Public API
 //--------------------------------------------------------------------+
 bool tusb_rhport_init(uint8_t rhport, const tusb_rhport_init_t* rh_init) {
-  //  backward compatible called with tusb_init(void)
-  #if defined(TUD_OPT_RHPORT) || defined(TUH_OPT_RHPORT)
-  if (rh_init == NULL) {
-    #if CFG_TUD_ENABLED && defined(TUD_OPT_RHPORT)
-    // init device stack CFG_TUSB_RHPORTx_MODE must be defined
-    const tusb_rhport_init_t dev_init = {
-      .role = TUSB_ROLE_DEVICE,
-      .speed = TUD_OPT_HIGH_SPEED ? TUSB_SPEED_HIGH : TUSB_SPEED_FULL
-    };
-    TU_ASSERT ( tud_rhport_init(TUD_OPT_RHPORT, &dev_init) );
-    _tusb_rhport_role[TUD_OPT_RHPORT] = TUSB_ROLE_DEVICE;
-    #endif
-
-    #if CFG_TUH_ENABLED && defined(TUH_OPT_RHPORT)
-    // init host stack CFG_TUSB_RHPORTx_MODE must be defined
-    const tusb_rhport_init_t host_init = {
-      .role = TUSB_ROLE_HOST,
-      .speed = TUH_OPT_HIGH_SPEED ? TUSB_SPEED_HIGH : TUSB_SPEED_FULL
-    };
-    TU_ASSERT( tuh_rhport_init(TUH_OPT_RHPORT, &host_init) );
-    _tusb_rhport_role[TUH_OPT_RHPORT] = TUSB_ROLE_HOST;
-    #endif
-
-    return true;
-  }
-  #endif
-
   // new API with explicit rhport and role
   TU_ASSERT(rhport < TUP_USBIP_CONTROLLER_NUM && rh_init->role != TUSB_ROLE_INVALID);
   _tusb_rhport_role[rhport] = rh_init->role;
