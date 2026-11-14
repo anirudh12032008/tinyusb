@@ -58,7 +58,22 @@ static int init_tinyusb(void)
     rt_thread_t tid;
 
     tusb_board_init();
-    tusb_init();
+
+#if CFG_TUD_ENABLED && !(CFG_TUH_ENABLED && BOARD_TUH_RHPORT == BOARD_DEVICE_RHPORT_NUM)
+    const tusb_rhport_init_t dev_init = {
+        .role = TUSB_ROLE_DEVICE,
+        .speed = TUD_OPT_HIGH_SPEED ? TUSB_SPEED_HIGH : TUSB_SPEED_FULL
+    };
+    tusb_init(BOARD_DEVICE_RHPORT_NUM, &dev_init);
+#endif
+
+#if CFG_TUH_ENABLED
+    const tusb_rhport_init_t host_init = {
+        .role = TUSB_ROLE_HOST,
+        .speed = TUH_OPT_HIGH_SPEED ? TUSB_SPEED_HIGH : TUSB_SPEED_FULL
+    };
+    tusb_init(BOARD_TUH_RHPORT, &host_init);
+#endif
 
 #ifdef RT_USING_HEAP
     tid = rt_thread_create("tusb", tusb_thread_entry, RT_NULL,

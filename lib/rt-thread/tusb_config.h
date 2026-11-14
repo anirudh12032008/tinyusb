@@ -87,13 +87,11 @@ extern "C" {
 #define BOARD_DEVICE_RHPORT_SPEED   PKG_TINYUSB_DEVICE_PORT_SPEED
 #endif
 
-#if   BOARD_DEVICE_RHPORT_NUM == 0
-#define CFG_TUSB_RHPORT0_MODE     (OPT_MODE_DEVICE | BOARD_DEVICE_RHPORT_SPEED)
-#elif BOARD_DEVICE_RHPORT_NUM == 1
-#define CFG_TUSB_RHPORT1_MODE     (OPT_MODE_DEVICE | BOARD_DEVICE_RHPORT_SPEED)
-#else
+#if BOARD_DEVICE_RHPORT_NUM != 0 && BOARD_DEVICE_RHPORT_NUM != 1
   #error "Incorrect RHPort configuration"
 #endif
+
+#define CFG_TUD_MAX_SPEED         BOARD_DEVICE_RHPORT_SPEED
 
 /* USB DMA on some MCUs can only access a specific SRAM region with restriction on alignment.
  * Tinyusb use follows macros to declare transferring memory so that they can be put
@@ -150,16 +148,6 @@ extern "C" {
   #define CFG_TUH_ENABLED             (1)
 #else
   #define CFG_TUH_ENABLED             (0)
-#endif
-
-#if (PKG_TINYUSB_HOST_PORT == 0) && defined(PKG_TINYUSB_HOST_ENABLE)
-#undef CFG_TUSB_RHPORT0_MODE
-#define CFG_TUSB_RHPORT0_MODE     (OPT_MODE_HOST | PKG_TINYUSB_HOST_PORT_SPEED)
-#endif
-
-#if (PKG_TINYUSB_HOST_PORT == 1) && defined(PKG_TINYUSB_HOST_ENABLE)
-#undef CFG_TUSB_RHPORT1_MODE
-#define CFG_TUSB_RHPORT1_MODE     (OPT_MODE_HOST | PKG_TINYUSB_HOST_PORT_SPEED)
 #endif
 
 #define BOARD_TUH_RHPORT            PKG_TINYUSB_HOST_PORT // FULL SPEED

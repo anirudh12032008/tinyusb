@@ -302,7 +302,7 @@ static void _dcd_ft9xx_detach(void)
 
 // Determine the speed of the USB to which we are connected.
 // Set the speed of the PHY accordingly.
-// High speed can be disabled through CFG_TUSB_RHPORT0_MODE or CFG_TUD_MAX_SPEED settings.
+// High speed can be disabled through CFG_TUD_MAX_SPEED setting.
 static void _ft9xx_usb_speed(void)
 {
 	uint8_t  fctrl_val;
