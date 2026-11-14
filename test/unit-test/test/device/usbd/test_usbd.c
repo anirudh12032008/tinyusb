@@ -347,6 +347,38 @@ void test_usbd_setup_begin_rejected_is_not_processed(void) {
   tud_task();
 }
 
+// the queue is FIFO: every SETUP queued before a bus reset is consumed before the reset event, so the
+// count left at reset time only holds SETUPs queued after it. A SETUP queued behind the reset is served
+void test_usbd_setup_queued_after_bus_reset_is_processed(void) {
+  mscd_reset_Ignore();
+  dcd_edpt0_setup_begin_StopIgnore();
+  desc_device = (uint8_t const*) &data_desc_device;
+
+  dcd_event_bus_reset(rhport, TUSB_SPEED_FULL, false);
+  dcd_event_setup_received_tagid(rhport, (uint8_t const*) &req_get_desc_device, 11, false);
+
+  dcd_edpt0_setup_begin_ExpectAndReturn(rhport, 11, true);
+  dcd_edpt_xfer_ExpectWithArrayAndReturn(rhport, 0x80, (uint8_t*) &data_desc_device, sizeof(tusb_desc_device_t), sizeof(tusb_desc_device_t), false, true);
+  tud_task();
+}
+
+// a SETUP queued before the bus reset is still dropped (the post-reset one is newer), and the post-reset
+// one is served
+void test_usbd_setup_queued_before_bus_reset_is_dropped(void) {
+  mscd_reset_Ignore();
+  dcd_edpt0_setup_begin_StopIgnore();
+  desc_device = (uint8_t const*) &data_desc_device;
+
+  dcd_event_setup_received_tagid(rhport, (uint8_t const*) &req_get_desc_device, 12, false);
+  dcd_event_bus_reset(rhport, TUSB_SPEED_FULL, false);
+  dcd_event_setup_received_tagid(rhport, (uint8_t const*) &req_get_desc_device, 13, false);
+
+  // only the post-reset SETUP reaches the DCD
+  dcd_edpt0_setup_begin_ExpectAndReturn(rhport, 13, true);
+  dcd_edpt_xfer_ExpectWithArrayAndReturn(rhport, 0x80, (uint8_t*) &data_desc_device, sizeof(tusb_desc_device_t), sizeof(tusb_desc_device_t), false, true);
+  tud_task();
+}
+
 //--------------------------------------------------------------------+
 // Transfer completion dropped by full event queue
 //--------------------------------------------------------------------+
